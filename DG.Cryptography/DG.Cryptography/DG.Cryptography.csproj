@@ -1,0 +1,59 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <ProjectGuid>{0D155BD4-868E-4A8D-AD20-B1E4C6AB91AE}</ProjectGuid>
+    <TargetFramework>net452</TargetFramework>
+    <AssemblyTitle>DG.Cryptography</AssemblyTitle>
+    <AssemblyVersion>1.0.2</AssemblyVersion>
+    <Product>DG.Cryptography</Product>
+    <Copyright>Copyright ©  2023</Copyright>
+    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Title>DG.Cryptography</Title>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/dennisvg111/dg-cryptography</RepositoryUrl>
+    <Deterministic>false</Deterministic>
+    <PackageId>Dennisvg.$(AssemblyName)</PackageId>
+    <Company>$(AssemblyName)</Company>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <Authors>dennisvg111</Authors>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
+    <PackageIcon>icon.png</PackageIcon>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>utilities</PackageTags>
+    <ProduceReferenceAssembly>False</ProduceReferenceAssembly>
+    <Version>$(AssemblyVersion)</Version>
+    <Description>Cryptography utilities</Description>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <GenerateAssemblyInfo>True</GenerateAssemblyInfo>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <GenerateAssemblyInfo>True</GenerateAssemblyInfo>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="..\..\icon.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Dennisvg.DG.Common" Version="1.5.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Net.Http" />
+  </ItemGroup>
+</Project>
