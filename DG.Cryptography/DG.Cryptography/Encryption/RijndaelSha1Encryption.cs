@@ -11,20 +11,50 @@ namespace DG.Cryptography.Encryption
     /// </summary>
     public class RijndaelSha1Encryption
     {
-        private int _keyBytes;
-        private int _iterations;
+        /// <summary>
+        /// 32
+        /// </summary>
+        private const int _defaultKeyBytes = 32;
+        /// <summary>
+        /// 1000
+        /// </summary>
+        private const int _defaultIterations = 1000;
 
+        private readonly int _keyBytes;
+        private readonly int _iterations;
+
+        /// <summary>
+        /// The amount of key bytes used by this instance of <see cref="RijndaelSha1Encryption"/>.
+        /// </summary>
         public int KeyBytes => _keyBytes;
+        /// <summary>
+        /// The amount of iterations used by this instance of <see cref="RijndaelSha1Encryption"/>.
+        /// </summary>
         public int Iterations => _iterations;
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="RijndaelSha1Encryption"/> with the given amount of key bytes and iterations.
+        /// </summary>
+        /// <param name="keyBytes"></param>
+        /// <param name="iterations"></param>
         public RijndaelSha1Encryption(int keyBytes, int iterations)
         {
             _keyBytes = keyBytes;
             _iterations = iterations;
         }
 
-        public static RijndaelSha1Encryption Default => new RijndaelSha1Encryption(32, 1000);
+        /// <summary>
+        /// Returns an instance of <see cref="RijndaelSha1Encryption"/>, with <inheritdoc cref="_defaultKeyBytes"/> key bytes and <inheritdoc cref="_defaultIterations"/> iterations.
+        /// </summary>
+        public static RijndaelSha1Encryption Default => new RijndaelSha1Encryption(_defaultKeyBytes, _defaultIterations);
 
+        /// <summary>
+        /// Encrypts the given plaintext, using the specified key.
+        /// </summary>
+        /// <param name="plainText"></param>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
         public string Encrypt(string plainText, string key)
         {
             if (string.IsNullOrEmpty(plainText))
@@ -63,6 +93,12 @@ namespace DG.Cryptography.Encryption
             }
         }
 
+        /// <summary>
+        /// Decrypts the given encrypted text, using the specified key.
+        /// </summary>
+        /// <param name="cipherText"></param>
+        /// <param name="key"></param>
+        /// <returns></returns>
         public string Decrypt(string cipherText, string key)
         {
             if (string.IsNullOrEmpty(cipherText))
