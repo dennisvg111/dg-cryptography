@@ -4,7 +4,7 @@ using System.Security.Cryptography;
 namespace DG.Cryptography.Random
 {
     /// <summary>
-    /// An implementation of <see cref="IRandomNumberProvider"/> based on a cryptographic secure random number generator
+    /// An implementation of <see cref="IRandomNumberProvider"/> based on a cryptographic secure random number generator.
     /// </summary>
     public sealed class SecureRandomNumberProvider : BaseRandomNumberProvider, IDisposable
     {

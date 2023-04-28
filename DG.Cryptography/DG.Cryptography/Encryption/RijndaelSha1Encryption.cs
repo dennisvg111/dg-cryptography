@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DG.Common.Exceptions;
+using System;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
@@ -57,10 +58,8 @@ namespace DG.Cryptography.Encryption
         /// <exception cref="ArgumentException"></exception>
         public string Encrypt(string plainText, string key)
         {
-            if (string.IsNullOrEmpty(plainText))
-            {
-                throw new ArgumentException();
-            }
+            Throws.If.NullOrEmpty(plainText, nameof(plainText));
+            Throws.If.NullOrEmpty(key, nameof(key));
             byte[] saltStringBytes = GenerateBitsOfRandomEntropy(_keyBytes * 8);
             byte[] ivStringBytes = GenerateBitsOfRandomEntropy(_keyBytes * 8);
             byte[] plainTextBytes = Encoding.UTF8.GetBytes(plainText);
@@ -101,10 +100,8 @@ namespace DG.Cryptography.Encryption
         /// <returns></returns>
         public string Decrypt(string cipherText, string key)
         {
-            if (string.IsNullOrEmpty(cipherText))
-            {
-                return null;
-            }
+            Throws.If.NullOrEmpty(cipherText, nameof(cipherText));
+            Throws.If.NullOrEmpty(key, nameof(key));
             // format: salt IV ciphertext
             byte[] cipherTextBytesWithSaltAndIv = Convert.FromBase64String(cipherText);
             byte[] saltStringBytes = cipherTextBytesWithSaltAndIv.Take(_keyBytes).ToArray();
