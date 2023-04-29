@@ -19,11 +19,9 @@ namespace DG.Cryptography.Random
         /// <param name="seed"></param>
         public SeededRandomNumberProvider(byte[] seed)
         {
-            Throws.If.NullOrEmpty(seed, nameof(seed));
-            if (seed.Length < 8)
-            {
-                throw new ArgumentException("Seed needs to be at least 8 bytes long.", nameof(seed));
-            }
+            ThrowIf.Parameter.IsNullOrEmpty(seed, nameof(seed), "Seed cannot be empty.");
+            ThrowIf.Collection(seed, nameof(seed)).CountLessThan(8, "Seed needs to be at least 8 bytes long.");
+
             _deriveBytes = new Rfc2898DeriveBytes(string.Empty, seed, _iterations);
         }
 
