@@ -58,8 +58,9 @@ namespace DG.Cryptography.Encryption
         /// <exception cref="ArgumentException"></exception>
         public string Encrypt(string plainText, string key)
         {
-            Throws.If.NullOrEmpty(plainText, nameof(plainText));
-            Throws.If.NullOrEmpty(key, nameof(key));
+            ThrowIf.Parameter.IsNullOrEmpty(plainText, nameof(plainText));
+            ThrowIf.Parameter.IsNullOrEmpty(key, nameof(key));
+
             byte[] saltStringBytes = GenerateBitsOfRandomEntropy(_keyBytes * 8);
             byte[] ivStringBytes = GenerateBitsOfRandomEntropy(_keyBytes * 8);
             byte[] plainTextBytes = Encoding.UTF8.GetBytes(plainText);
@@ -100,8 +101,9 @@ namespace DG.Cryptography.Encryption
         /// <returns></returns>
         public string Decrypt(string cipherText, string key)
         {
-            Throws.If.NullOrEmpty(cipherText, nameof(cipherText));
-            Throws.If.NullOrEmpty(key, nameof(key));
+            ThrowIf.Parameter.IsNullOrEmpty(cipherText, nameof(cipherText));
+            ThrowIf.Parameter.IsNullOrEmpty(key, nameof(key));
+
             // format: salt IV ciphertext
             byte[] cipherTextBytesWithSaltAndIv = Convert.FromBase64String(cipherText);
             byte[] saltStringBytes = cipherTextBytesWithSaltAndIv.Take(_keyBytes).ToArray();
