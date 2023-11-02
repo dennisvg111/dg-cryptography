@@ -4,10 +4,17 @@ using System.Security.Cryptography;
 namespace DG.Cryptography.Random
 {
     /// <summary>
-    /// An implementation of <see cref="IRandomNumberProvider"/> based on a cryptographic secure random number generator.
+    /// An implementation of <see cref="IRandomNumberProvider"/> using <see cref="RNGCryptoServiceProvider"/> to provide sequences of random bytes.
     /// </summary>
     public sealed class SecureRandomNumberProvider : BaseRandomNumberProvider, IDisposable
     {
+        private readonly static SecureRandomNumberProvider _defaultInstance = new SecureRandomNumberProvider();
+
+        /// <summary>
+        /// Returns a static instance of <see cref="SecureRandomNumberProvider"/>.
+        /// </summary>
+        public static SecureRandomNumberProvider Default => _defaultInstance;
+
         private RNGCryptoServiceProvider _rng;
 
         /// <summary>

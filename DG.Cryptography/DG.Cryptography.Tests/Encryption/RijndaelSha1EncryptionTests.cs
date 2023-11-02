@@ -2,7 +2,7 @@
 using System;
 using Xunit;
 
-namespace DG.Cryptography.Tests
+namespace DG.Cryptography.Tests.Encryption
 {
     public class RijndaelSha1EncryptionTests
     {
