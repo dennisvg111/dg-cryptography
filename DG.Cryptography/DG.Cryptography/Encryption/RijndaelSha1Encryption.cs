@@ -1,4 +1,5 @@
 ﻿using DG.Common.Exceptions;
+using DG.Cryptography.Random;
 using System;
 using System.IO;
 using System.Linq;
@@ -15,11 +16,14 @@ namespace DG.Cryptography.Encryption
         /// <summary>
         /// 32
         /// </summary>
-        private const int _defaultKeyBytes = 32;
+        public const int DefaultKeyBytes = 32;
+
         /// <summary>
         /// 1000
         /// </summary>
-        private const int _defaultIterations = 1000;
+        public const int DefaultIterations = 1000;
+
+        private static readonly SecureRandomNumberProvider _randomBytesProvider = SecureRandomNumberProvider.Default;
 
         private readonly int _keyBytes;
         private readonly int _iterations;
@@ -45,9 +49,9 @@ namespace DG.Cryptography.Encryption
         }
 
         /// <summary>
-        /// Returns an instance of <see cref="RijndaelSha1Encryption"/>, with <inheritdoc cref="_defaultKeyBytes"/> key bytes and <inheritdoc cref="_defaultIterations"/> iterations.
+        /// Returns an instance of <see cref="RijndaelSha1Encryption"/>, with <inheritdoc cref="DefaultKeyBytes"/> key bytes and <inheritdoc cref="DefaultIterations"/> iterations.
         /// </summary>
-        public static RijndaelSha1Encryption Default => new RijndaelSha1Encryption(_defaultKeyBytes, _defaultIterations);
+        public static RijndaelSha1Encryption Default => new RijndaelSha1Encryption(DefaultKeyBytes, DefaultIterations);
 
         /// <summary>
         /// Encrypts the given plaintext, using the specified key.
@@ -61,8 +65,8 @@ namespace DG.Cryptography.Encryption
             ThrowIf.Parameter.IsNullOrEmpty(plainText, nameof(plainText));
             ThrowIf.Parameter.IsNullOrEmpty(key, nameof(key));
 
-            byte[] saltStringBytes = GenerateBitsOfRandomEntropy(_keyBytes * 8);
-            byte[] ivStringBytes = GenerateBitsOfRandomEntropy(_keyBytes * 8);
+            byte[] saltStringBytes = _randomBytesProvider.NextBytes(_keyBytes);
+            byte[] ivStringBytes = _randomBytesProvider.NextBytes(_keyBytes);
             byte[] plainTextBytes = Encoding.UTF8.GetBytes(plainText);
             using (Rfc2898DeriveBytes password = new Rfc2898DeriveBytes(key, saltStringBytes, _iterations))
             {
@@ -134,16 +138,6 @@ namespace DG.Cryptography.Encryption
                     }
                 }
             }
-        }
-
-        private static byte[] GenerateBitsOfRandomEntropy(int bits)
-        {
-            byte[] randomBytes = new byte[bits / 8];
-            using (RNGCryptoServiceProvider rngCsp = new RNGCryptoServiceProvider())
-            {
-                rngCsp.GetBytes(randomBytes);
-            }
-            return randomBytes;
         }
     }
 }
