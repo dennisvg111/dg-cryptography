@@ -1,15 +1,14 @@
 ﻿namespace DG.Cryptography.Random
 {
     /// <summary>
-    /// This interface provides a way to generate integers between 0 and a given value.
+    /// Provides a way to generate random byte arrays.
     /// </summary>
     public interface IRandomNumberProvider
     {
         /// <summary>
-        /// Generates an integer between 0 inclusive and <paramref name="maxValueExclusive"/> exclusive.
+        /// Generates an array of bytes with the given amount of randomly generated values
         /// </summary>
-        /// <param name="maxValueExclusive"></param>
-        /// <returns></returns>
-        int Next(int maxValueExclusive);
+        /// <param name="count"></param>
+        byte[] NextBytes(int count);
     }
 }

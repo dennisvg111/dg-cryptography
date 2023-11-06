@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DG.Common.Exceptions;
+using System;
 using System.Linq;
 
 namespace DG.Cryptography.Random.Testing
@@ -17,6 +18,33 @@ namespace DG.Cryptography.Random.Testing
         public ChiSquared(double[,] grid) : this(grid.GetLength(0), grid.GetLength(1))
         {
             Array.Copy(grid, _grid, grid.Length);
+        }
+
+        public ChiSquared(params double[][] grid) : this(grid.Length, grid[0].Length)
+        {
+            var combined = CombineArrays(grid);
+            Array.Copy(combined, _grid, combined.Length);
+        }
+
+        private static double[,] CombineArrays(double[][] arrays)
+        {
+            ThrowIf.Parameter.IsNull(arrays, nameof(arrays));
+            ThrowIf.Collection(arrays, nameof(arrays)).Any(a => a == null, "Cannot contain null arrays.");
+            ThrowIf.Collection(arrays, nameof(arrays)).Any(a => a.Length != arrays[0].Length, "Input arrays should all have the same length.");
+
+            var width = arrays.Length;
+            var height = arrays[0].Length;
+            var result = new double[width, height];
+
+            for (int arrayIndex = 0; arrayIndex < width; arrayIndex++)
+            {
+                for (int i = 0; i < height; i++)
+                {
+                    result[arrayIndex, i] = arrays[arrayIndex][i];
+                }
+            }
+
+            return result;
         }
 
         private void ResetCalculation()
@@ -45,6 +73,10 @@ namespace DG.Cryptography.Random.Testing
             return _calcuation.Value.GetDegreesOfFreedom();
         }
 
+        /// <summary>
+        /// This represents the probability that this result is due to chance.
+        /// </summary>
+        /// <returns></returns>
         public double CalculateAlpha()
         {
             return _calcuation.Value.CalculateAlpha();
@@ -201,7 +233,7 @@ namespace DG.Cryptography.Random.Testing
 
                 if (y >= (zMax * 0.5))
                 {
-                    return 1.0;
+                    return z > 0.0 ? 1.0 : 0.0;
                 }
                 if (y < 1.0)
                 {

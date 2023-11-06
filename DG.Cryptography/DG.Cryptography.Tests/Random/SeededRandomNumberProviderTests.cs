@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
-namespace DG.Cryptography.Tests
+namespace DG.Cryptography.Tests.Random
 {
     public class SeededRandomNumberProviderTests
     {
@@ -40,8 +40,6 @@ namespace DG.Cryptography.Tests
             using (SeededRandomNumberProvider srnp = new SeededRandomNumberProvider(seed))
             {
                 var values = Enumerable.Range(0, 10).Select((i) => srnp.NextUint()).ToArray();
-
-                var s1 = string.Join(", ", values.Select(i => i.ToString()));
 
                 Assert.Equal(expectedValues, values);
             }
