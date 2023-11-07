@@ -20,7 +20,7 @@ namespace DG.Cryptography.Tests.Hashing
         [Fact]
         public void VerifyHash_ReturnsTrue()
         {
-            var hashedString = "64000:ZCOxw2QzkmuPqlY7oHLT1Jz1afDKw9FixQBtOx2bfGhPVB2ypIHG/hW3PGJx4TD4P7QUAE6cydAF4olup05YjA==:AbZT8bivO0O526dq9sOi0kU5zNO8vsjdyqMgkw==";
+            var hashedString = "64000:ZCOxw2QzkmuPqlY7oHLT1Jz1afDKw9FixQBtOx2bfGhPVB2ypIHG_hW3PGJx4TD4P7QUAE6cydAF4olup05YjA:AbZT8bivO0O526dq9sOi0kU5zNO8vsjdyqMgkw";
             var plainText = "Hello world!";
 
             Assert.True(Pbkdf2Sha1Hash.VerifyHash(plainText, hashedString));
@@ -29,7 +29,7 @@ namespace DG.Cryptography.Tests.Hashing
         [Fact]
         public void VerifyHash_ReturnsFalse()
         {
-            var hashedString = "64000:ZCOxw2QzkmuPqlY7oHLT1Jz1afDKw9FixQBtOx2bfGhPVB2ypIHG/hW3PGJx4TD4P7QUAE6cydAF4olup05YjA==:AbZT8bivO0O526dq9sOi0kU5zNO8vsjdyqMgkw==";
+            var hashedString = "64000:ZCOxw2QzkmuPqlY7oHLT1Jz1afDKw9FixQBtOx2bfGhPVB2ypIHG_hW3PGJx4TD4P7QUAE6cydAF4olup05YjA:AbZT8bivO0O526dq9sOi0kU5zNO8vsjdyqMgkw";
             var plainText = "Hello world";
 
             Assert.False(Pbkdf2Sha1Hash.VerifyHash(plainText, hashedString));

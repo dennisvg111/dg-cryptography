@@ -1,4 +1,5 @@
-﻿using DG.Common.Exceptions;
+﻿using DG.Common;
+using DG.Common.Exceptions;
 using System;
 using System.Collections.Generic;
 
@@ -8,28 +9,24 @@ namespace DG.Cryptography.Hashing
     {
         public const char Delimiter = ':';
 
-        private readonly string _algorithm;
         private readonly int _iterations;
-        private readonly int _hashSize;
         private readonly byte[] _salt;
         private readonly byte[] _hash;
 
         public int Iterations => _iterations;
-        public int HashSize => _hashSize;
+        public int HashSize => _hash.Length;
         public byte[] Salt => _salt;
 
-        public Pbkdf2Sha1HashResult(string algorithm, int iterations, int hashSize, byte[] salt, byte[] hash)
+        public Pbkdf2Sha1HashResult(int iterations, byte[] salt, byte[] hash)
         {
-            _algorithm = algorithm;
             _iterations = iterations;
-            _hashSize = hashSize;
             _salt = salt;
             _hash = hash;
         }
 
         public override string ToString()
         {
-            return _algorithm + Delimiter + _iterations + Delimiter + _hashSize + Delimiter + Convert.ToBase64String(_salt) + Delimiter + Convert.ToBase64String(_hash);
+            return _iterations.ToString() + Delimiter + SafeBase64.Encode(_salt) + Delimiter + SafeBase64.Encode(_hash);
         }
 
         public bool SlowEquals(Pbkdf2Sha1HashResult testHash)
@@ -48,11 +45,9 @@ namespace DG.Cryptography.Hashing
         {
             string[] split = hashedString.Split(new char[] { Delimiter }, StringSplitOptions.RemoveEmptyEntries);
 
-            ThrowIf.Collection(split, nameof(hashedString)).CountOtherThan(5);
-            string algorithm = split[0];
+            ThrowIf.Collection(split, nameof(hashedString)).CountOtherThan(3);
 
-            int iterations;
-            if (!int.TryParse(split[1], out iterations))
+            if (!int.TryParse(split[0], out int iterations))
             {
                 throw new FormatException("Could not parse iteration count from the given token string.");
             }
@@ -62,7 +57,7 @@ namespace DG.Cryptography.Hashing
             byte[] salt;
             try
             {
-                salt = Convert.FromBase64String(split[3]);
+                salt = SafeBase64.Decode(split[1]);
             }
             catch (Exception ex)
             {
@@ -72,20 +67,14 @@ namespace DG.Cryptography.Hashing
             byte[] hash;
             try
             {
-                hash = Convert.FromBase64String(split[4]);
+                hash = SafeBase64.Decode(split[2]);
             }
             catch (Exception ex)
             {
                 throw new FormatException("Invalid hash.", ex);
             }
 
-            int hashSize;
-            if (!int.TryParse(split[2], out hashSize))
-            {
-                throw new FormatException("Could not parse hash size from the given token string.");
-            }
-            ThrowIf.Number(hashSize, nameof(hashedString)).IsNotBetweenInclusive(hash.Length, hash.Length, "Invalid hash size.");
-            return new Pbkdf2Sha1HashResult(algorithm, iterations, hashSize, salt, hash);
+            return new Pbkdf2Sha1HashResult(iterations, salt, hash);
         }
 
         public static bool TryParse(string s, out Pbkdf2Sha1HashResult hashedString)

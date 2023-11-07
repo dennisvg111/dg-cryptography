@@ -8,8 +8,6 @@ namespace DG.Cryptography.Hashing
     /// </summary>
     public class Pbkdf2Sha1Hash
     {
-        private const string _algorithm = "sha1";
-
         /// <summary>
         /// 24
         /// </summary>
@@ -81,7 +79,7 @@ namespace DG.Cryptography.Hashing
             {
                 pbkdf2.IterationCount = iterations;
                 var hash = pbkdf2.GetBytes(outputBytes);
-                return new Pbkdf2Sha1HashResult(_algorithm, iterations, outputBytes, salt, hash);
+                return new Pbkdf2Sha1HashResult(iterations, salt, hash);
             }
         }
     }
