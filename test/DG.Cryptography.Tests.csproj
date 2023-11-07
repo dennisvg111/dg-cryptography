@@ -28,6 +28,6 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DG.Cryptography\DG.Cryptography.csproj" />
+    <ProjectReference Include="..\src\DG.Cryptography.csproj" />
   </ItemGroup>
 </Project>

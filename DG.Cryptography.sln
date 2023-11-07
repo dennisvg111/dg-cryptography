@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33502.453
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DG.Cryptography", "DG.Cryptography\DG.Cryptography.csproj", "{0D155BD4-868E-4A8D-AD20-B1E4C6AB91AE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DG.Cryptography", "src\DG.Cryptography.csproj", "{0D155BD4-868E-4A8D-AD20-B1E4C6AB91AE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DG.Cryptography.Tests", "DG.Cryptography.Tests\DG.Cryptography.Tests.csproj", "{CE83CDB5-8291-49E2-BACD-1F8F2C5014D5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DG.Cryptography.Tests", "test\DG.Cryptography.Tests.csproj", "{CE83CDB5-8291-49E2-BACD-1F8F2C5014D5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
