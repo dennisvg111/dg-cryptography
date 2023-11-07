@@ -8,7 +8,14 @@ namespace DG.Cryptography.Random
     /// </summary>
     public sealed class FisherYatesShuffle
     {
-        private IRandomNumberProvider _rnp;
+        private static readonly FisherYatesShuffle _defaultInstance = new FisherYatesShuffle(SecureRandomNumberProvider.Default);
+
+        /// <summary>
+        /// Returns a static instance of <see cref="FisherYatesShuffle"/>.
+        /// </summary>
+        public static FisherYatesShuffle Default => _defaultInstance;
+
+        private readonly IRandomNumberProvider _rnp;
 
         /// <summary>
         /// Initializes a new instance of <see cref="FisherYatesShuffle"/> with the given implementation of <see cref="IRandomNumberProvider"/>.
@@ -45,33 +52,6 @@ namespace DG.Cryptography.Random
         {
             var stringArray = input.ToArray();
             Shuffle(stringArray);
-            return new string(stringArray);
-        }
-
-        /// <summary>
-        /// Shuffles the given list using a cryptographic secure inplementation of <see cref="IRandomNumberProvider"/>.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="input"></param>
-        public static void SecureShuffle<T>(IList<T> input)
-        {
-            using (var rnp = new SecureRandomNumberProvider())
-            {
-                FisherYatesShuffle shuffle = new FisherYatesShuffle(rnp);
-                shuffle.Shuffle(input);
-            }
-        }
-
-        /// <summary>
-        /// Shuffles the given string using a cryptographic secure inplementation of <see cref="IRandomNumberProvider"/>, and returns the newly shuffled string.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="input"></param>
-        /// <returns></returns>
-        public static string SecureShuffle<T>(string input)
-        {
-            var stringArray = input.ToArray();
-            SecureShuffle(stringArray);
             return new string(stringArray);
         }
     }

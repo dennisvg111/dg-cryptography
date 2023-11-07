@@ -7,11 +7,11 @@ namespace DG.Cryptography.Random
     /// <summary>
     /// An implementation of <see cref="IRandomNumberProvider"/> based on a cryptographic secure random number generator, that returns the same values for the same seed.
     /// </summary>
-    public sealed class SeededRandomNumberProvider : BaseRandomNumberProvider, IDisposable
+    public sealed class SeededRandomNumberProvider : IRandomNumberProvider, IDisposable
     {
         private const int _iterations = 1000;
 
-        private readonly Rfc2898DeriveBytes _deriveBytes;
+        private Rfc2898DeriveBytes _deriveBytes;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SeededRandomNumberProvider"/> class using the given seed. Note that the seed needs to be at least 8 bytes long. 
@@ -28,13 +28,20 @@ namespace DG.Cryptography.Random
         /// <inheritdoc/>
         public void Dispose()
         {
+            if (_deriveBytes == null)
+            {
+                return;
+            }
             _deriveBytes.Dispose();
+            _deriveBytes = null;
         }
 
         /// <inheritdoc/>
-        public override byte[] NextBytes(int count)
+        public void GetNext(byte[] buffer)
         {
-            return _deriveBytes.GetBytes(count);
+            int length = buffer.Length;
+            var bytes = _deriveBytes.GetBytes(length);
+            Array.Copy(bytes, buffer, length);
         }
     }
 }
