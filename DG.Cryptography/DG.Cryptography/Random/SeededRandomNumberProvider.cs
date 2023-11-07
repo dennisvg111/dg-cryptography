@@ -37,9 +37,11 @@ namespace DG.Cryptography.Random
         }
 
         /// <inheritdoc/>
-        public byte[] NextBytes(int count)
+        public void GetNext(byte[] buffer)
         {
-            return _deriveBytes.GetBytes(count);
+            int length = buffer.Length;
+            var bytes = _deriveBytes.GetBytes(length);
+            Array.Copy(bytes, buffer, length);
         }
     }
 }

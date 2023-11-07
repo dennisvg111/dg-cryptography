@@ -30,11 +30,9 @@ namespace DG.Cryptography.Random
         public SecureRandomNumberProvider() : this(false) { }
 
         /// <inheritdoc/>
-        public byte[] NextBytes(int count)
+        public void GetNext(byte[] buffer)
         {
-            byte[] buffer = new byte[count];
             _rng.GetBytes(buffer);
-            return buffer;
         }
 
         /// <inheritdoc/>

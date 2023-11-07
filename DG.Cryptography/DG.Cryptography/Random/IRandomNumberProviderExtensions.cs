@@ -11,6 +11,19 @@ namespace DG.Cryptography.Random
         private static readonly object _lock = new object();
 
         /// <summary>
+        /// Generates an array of bytes with the given amount of randomly generated values
+        /// </summary>
+        /// <param name="randomNumberProvider"></param>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        public static byte[] NextBytes(this IRandomNumberProvider randomNumberProvider, int count)
+        {
+            var buffer = new byte[count];
+            randomNumberProvider.GetNext(buffer);
+            return buffer;
+        }
+
+        /// <summary>
         /// Generates a 32-bit <see cref="uint"/>.
         /// </summary>
         /// <param name="randomNumberProvider"></param>
