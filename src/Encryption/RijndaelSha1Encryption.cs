@@ -9,7 +9,7 @@ using System.Text;
 namespace DG.Cryptography.Encryption
 {
     /// <summary>
-    /// Provides an encryption algorithm using the Rijndael algorithm, and SHA1 based RFC 2898 password based cryptography.
+    /// Provides an encryption algorithm using the Rijndael algorithm, and SHA-1 based RFC 2898 password based cryptography.
     /// </summary>
     public class RijndaelSha1Encryption
     {
