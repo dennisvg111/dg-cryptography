@@ -27,7 +27,4 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\DG.Cryptography\DG.Cryptography.csproj" />
-  </ItemGroup>
 </Project>
