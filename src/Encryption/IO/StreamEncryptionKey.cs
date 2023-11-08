@@ -20,7 +20,7 @@ namespace DG.Cryptography.Encryption.IO
 
         static StreamEncryptionKey()
         {
-            AesManaged aes = new AesManaged();
+            Aes aes = Aes.Create();
             _defaultKeyBits = aes.LegalKeySizes[0].MaxSize;
             _defaultBlockBits = aes.LegalBlockSizes[0].MaxSize;
         }
@@ -118,16 +118,15 @@ namespace DG.Cryptography.Encryption.IO
         /// Returns an implementation of the Advanced Encryption Standard algorithm.
         /// </summary>
         /// <returns></returns>
-        public AesManaged GetAesImplementation()
+        public Aes GetAesImplementation()
         {
-            return new AesManaged
-            {
-                BlockSize = _iv.Length * 8,
-                KeySize = _key.Length * 8,
-                IV = _iv,
-                Key = _key,
-                Mode = CipherMode.CBC
-            };
+            var aes = Aes.Create();
+            aes.BlockSize = _iv.Length * 8;
+            aes.KeySize = _key.Length * 8;
+            aes.IV = _iv;
+            aes.Key = _key;
+            aes.Mode = CipherMode.CBC;
+            return aes;
         }
 
         /// <inheritdoc/>
