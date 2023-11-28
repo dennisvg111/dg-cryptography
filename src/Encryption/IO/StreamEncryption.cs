@@ -21,7 +21,7 @@ namespace DG.Cryptography.Encryption.IO
                 var transform = aes.CreateEncryptor(aes.Key, aes.IV);
                 var cryptoStream = new CryptoStream(stream, transform, CryptoStreamMode.Read);
 
-                return cryptoStream;
+                return new EncryptedStreamWrapper(cryptoStream, stream.Length, aes.IV.Length);
             }
         }
 
